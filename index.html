@@ -3,47 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Birthday Chatbot</title>
+  <title>Happy Birthday from Sooryam</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
-      background: #ffe6f0;
-      color: #333;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1rem;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #ffe0ec, #ffd1f3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 600px;
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.3);
+      border: 3px solid #ffc0cb;
+      text-align: center;
+      position: relative;
+    }
+
+    .heart {
+      font-size: 2rem;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .teddy-img {
+      width: 200px; /* increased size */
+      margin-bottom: 0.5rem; /* reduced space below image */
+      animation: pop 0.6s ease-in-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
     #chat {
       white-space: pre-wrap;
       margin-bottom: 1rem;
+      min-height: 200px;
+      font-size: 1.1rem;
+      line-height: 1.6;
     }
+
     input, button {
       padding: 10px;
       font-size: 1rem;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #ccc;
       margin-top: 0.5rem;
     }
+
+    input {
+      width: 80%;
+    }
+
     button {
-      background-color: #ff66a3;
+      background-color: #ff69b4;
       color: white;
       border: none;
       cursor: pointer;
+      margin-right: 10px;
+      transition: background 0.3s ease;
     }
+
     button:hover {
-      background-color: #e05590;
+      background-color: #ff4c9b;
+    }
+
+    .blinking-cursor::after {
+      content: "|";
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    #input-area {
+      margin-top: 0; /* removed the margin */
     }
   </style>
 </head>
 <body>
 
-  <div id="chat"></div>
-
-  <div id="input-area">
-    <input type="text" id="name" placeholder="Enter your name..." />
-    <button onclick="startChat()">Start Chat</button>
+  <div class="container">
+    <div class="heart">💓</div>
+    <img src="https://media1.tenor.com/m/UHk41PVqqbgAAAAC/milk-and.gif" alt="Teddy Hugging" class="teddy-img" />
+    <div id="chat" class="blinking-cursor"></div>
+    <div id="input-area">
+      <input type="text" id="name" placeholder="Enter your name..." />
+      <button onclick="startChat()">Start</button>
+    </div>
   </div>
 
   <script>
@@ -67,51 +129,65 @@
 
     function startChat() {
       const name = document.getElementById('name').value.trim();
-      if (!name) return alert('Please enter a name!');
+      if (!name) return alert('Please enter your name, sweetie 💗');
 
       chat.textContent = '';
-      inputArea.innerHTML = ''; // Clear input area
+      inputArea.innerHTML = '';
 
       slowType(`🎉 Hello ${name}, Happy Birthday!!! 🎂\n`, () => {
-        slowType("I'm your little birthday chatbot, here to make your day even brighter! 🌟\n", () => {
-          askFeeling(name);
+        slowType("I'm here to fill your day with love and sparkle! 💞\n", () => {
+          askFeeling();
         });
       });
     }
 
-    function askFeeling(name) {
-      const input = document.createElement('input');
-      input.placeholder = "How are you feeling today?";
-      const button = document.createElement('button');
-      button.textContent = "Submit";
-      button.onclick = () => {
-        const feeling = input.value.trim();
-        if (!feeling) return alert('Please share how you feel!');
-        chat.textContent += `\nYou: ${feeling}\n`;
-        inputArea.innerHTML = '';
-        slowType(`Aww, ${feeling} is a beautiful feeling! ✨\n`, () => {
-          askWish();
-        });
-      };
-      inputArea.appendChild(input);
-      inputArea.appendChild(button);
+    function askFeeling() {
+      chat.textContent += "\nHow are you feeling today, my precious one? 🥰\n";
+
+      const goodBtn = document.createElement('button');
+      goodBtn.textContent = "Feeling Loved 💖";
+      goodBtn.onclick = () => handleFeeling("loved");
+
+      const mehBtn = document.createElement('button');
+      mehBtn.textContent = "A Bit Down 😔";
+      mehBtn.onclick = () => handleFeeling("down");
+
+      inputArea.innerHTML = '';
+      inputArea.appendChild(goodBtn);
+      inputArea.appendChild(mehBtn);
+    }
+
+    function handleFeeling(feeling) {
+      chat.textContent += `\nYou: I'm feeling ${feeling}.\n`;
+      inputArea.innerHTML = '';
+
+      let response = "";
+      if (feeling === "loved") {
+        response = "Aww, that warms my heart! You're glowing today, beautiful soul! ✨💗\n";
+      } else {
+        response = "Oh sweetheart, I'm wrapping you in a big warm hug. 💞 You're never alone.\n";
+      }
+
+      slowType(response, () => {
+        askWish();
+      });
     }
 
     function askWish() {
       const input = document.createElement('input');
-      input.placeholder = "What's your biggest wish today?";
+      input.placeholder = "Tell me your biggest wish today 💌";
       const button = document.createElement('button');
-      button.textContent = "Submit";
+      button.textContent = "Send Wish 💭";
       button.onclick = () => {
         const wish = input.value.trim();
-        if (!wish) return alert('Tell me your wish!');
+        if (!wish) return alert('Please share your heart’s wish 💕');
         chat.textContent += `\nYou: ${wish}\n`;
         inputArea.innerHTML = '';
-        slowType(`Wow, wishing you that and *so much more*, my love! 💖\n`, () => {
-          slowType("Remember, you are deeply loved, cherished, and celebrated today and always. 🎈\n", () => {
-            slowType("Thank you for being the amazing YOU! 🥳❤️\n", () => {
-              slowType("Sending you all the hugs, kisses, and cake! 🍰💋\n", () => {
-                slowType("With endless love,\n[sooryam] 💌\n");
+        slowType(`Ooh, I'm sprinkling magic dust on that wish! ✨ May it come true and then some 💖\n`, () => {
+          slowType("Just remember: you're adored, treasured, and celebrated beyond words today. 🎈\n", () => {
+            slowType("Thank you for being uniquely YOU. The world is brighter with you in it. 🥳❤️\n", () => {
+              slowType("Sending you cuddles, kisses, and infinite slices of cake! 🍰💋\n", () => {
+                slowType("With all the love in the world,\nSooryam 💌\n");
               });
             });
           });
@@ -124,3 +200,4 @@
 
 </body>
 </html>
+
