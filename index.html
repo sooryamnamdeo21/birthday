@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Chatbot</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #ffe6f0;
+      color: #333;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    #chat {
+      white-space: pre-wrap;
+      margin-bottom: 1rem;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 0.5rem;
+    }
+    button {
+      background-color: #ff66a3;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e05590;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chat"></div>
+
+  <div id="input-area">
+    <input type="text" id="name" placeholder="Enter your name..." />
+    <button onclick="startChat()">Start Chat</button>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const inputArea = document.getElementById('input-area');
+
+    function slowType(text, callback) {
+      let i = 0;
+      const speed = 40;
+      function typeChar() {
+        if (i < text.length) {
+          chat.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeChar, speed);
+        } else if (callback) {
+          setTimeout(callback, 500);
+        }
+      }
+      typeChar();
+    }
+
+    function startChat() {
+      const name = document.getElementById('name').value.trim();
+      if (!name) return alert('Please enter a name!');
+
+      chat.textContent = '';
+      inputArea.innerHTML = ''; // Clear input area
+
+      slowType(`🎉 Hello ${name}, Happy Birthday!!! 🎂\n`, () => {
+        slowType("I'm your little birthday chatbot, here to make your day even brighter! 🌟\n", () => {
+          askFeeling(name);
+        });
+      });
+    }
+
+    function askFeeling(name) {
+      const input = document.createElement('input');
+      input.placeholder = "How are you feeling today?";
+      const button = document.createElement('button');
+      button.textContent = "Submit";
+      button.onclick = () => {
+        const feeling = input.value.trim();
+        if (!feeling) return alert('Please share how you feel!');
+        chat.textContent += `\nYou: ${feeling}\n`;
+        inputArea.innerHTML = '';
+        slowType(`Aww, ${feeling} is a beautiful feeling! ✨\n`, () => {
+          askWish();
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+
+    function askWish() {
+      const input = document.createElement('input');
+      input.placeholder = "What's your biggest wish today?";
+      const button = document.createElement('button');
+      button.textContent = "Submit";
+      button.onclick = () => {
+        const wish = input.value.trim();
+        if (!wish) return alert('Tell me your wish!');
+        chat.textContent += `\nYou: ${wish}\n`;
+        inputArea.innerHTML = '';
+        slowType(`Wow, wishing you that and *so much more*, my love! 💖\n`, () => {
+          slowType("Remember, you are deeply loved, cherished, and celebrated today and always. 🎈\n", () => {
+            slowType("Thank you for being the amazing YOU! 🥳❤️\n", () => {
+              slowType("Sending you all the hugs, kisses, and cake! 🍰💋\n", () => {
+                slowType("With endless love,\n[sooryam] 💌\n");
+              });
+            });
+          });
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+  </script>
+
+</body>
+</html>
