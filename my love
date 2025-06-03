@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday from Sooryam</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #ffe0ec, #ffd1f3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 600px;
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.3);
+      border: 3px solid #ffc0cb;
+      text-align: center;
+      position: relative;
+    }
+
+    .heart {
+      font-size: 2rem;
+      animation: heartbeat 1.5s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .teddy-img {
+      width: 200px;
+      margin-bottom: 0.5rem;
+      animation: pop 0.6s ease-in-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #chat {
+      white-space: pre-wrap;
+      margin-bottom: 1rem;
+      min-height: 200px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-top: 0.5rem;
+    }
+
+    input {
+      width: 80%;
+    }
+
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ff4c9b;
+    }
+
+    .blinking-cursor::after {
+      content: "|";
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    #input-area {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="heart">💓</div>
+    <img src="https://media1.tenor.com/m/UHk41PVqqbgAAAAC/milk-and.gif" alt="Teddy Hugging" class="teddy-img" />
+    <div id="chat" class="blinking-cursor"></div>
+    <div id="input-area">
+      <input type="text" id="name" placeholder="Enter your name..." />
+      <button onclick="startChat()">Start</button>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById('chat');
+    const inputArea = document.getElementById('input-area');
+
+    function slowType(text, callback) {
+      let i = 0;
+      const speed = 40;
+      function typeChar() {
+        if (i < text.length) {
+          chat.textContent += text.charAt(i);
+          i++;
+          setTimeout(typeChar, speed);
+        } else if (callback) {
+          setTimeout(callback, 600);
+        }
+      }
+      typeChar();
+    }
+
+    function startChat() {
+      const name = document.getElementById('name').value.trim();
+      if (!name) return alert('Please enter your name, my dream girl 💗');
+
+      chat.textContent = '';
+      inputArea.innerHTML = '';
+
+      slowType(`🎉 Hello ${name} babbuu, Happy Birthday!!! 🎂\n`, () => {
+        slowType("I'm here to fill your day with love and sparkle! 💞\n", () => {
+          askFeeling();
+        });
+      });
+    }
+
+    function askFeeling() {
+      chat.textContent += "\nHow are you feeling today, my precious one? 🥰\n";
+
+      const goodBtn = document.createElement('button');
+      goodBtn.textContent = "Feeling Loved 💖";
+      goodBtn.onclick = () => handleFeeling("loved");
+
+      const mehBtn = document.createElement('button');
+      mehBtn.textContent = "A Bit Down 😔";
+      mehBtn.onclick = () => handleFeeling("down");
+
+      inputArea.innerHTML = '';
+      inputArea.appendChild(goodBtn);
+      inputArea.appendChild(mehBtn);
+    }
+
+    function handleFeeling(feeling) {
+      chat.textContent += `\nYou: I'm feeling ${feeling}.\n`;
+      inputArea.innerHTML = '';
+
+      let response = feeling === "loved"
+        ? "Aww, that warms my heart! You're glowing today, beautiful soul! ✨💗\n"
+        : "Oh sweetheart, I'm wrapping you in a big warm hug. 💞 You're never alone.\n";
+
+      slowType(response, () => {
+        askWish();
+      });
+    }
+
+    function askWish() {
+      const input = document.createElement('input');
+      input.placeholder = "Tell me your biggest wish today 💌";
+      const button = document.createElement('button');
+      button.textContent = "Send Wish 💭";
+      button.onclick = () => {
+        const wish = input.value.trim();
+        if (!wish) return alert('Please share your heart’s wish 💕');
+        chat.textContent += `\nYou: ${wish}\n`;
+        inputArea.innerHTML = '';
+        slowType("Ooh, I'm sprinkling magic dust on that wish! ✨ it come true  💖\n", () => {
+          askMemory();
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+
+    function askMemory() {
+      const input = document.createElement('input');
+      input.placeholder = "What's your favorite thing u want to do with me today ? 🎈";
+      const button = document.createElement('button');
+      button.textContent = "Share it 🥰";
+      button.onclick = () => {
+        const memory = input.value.trim();
+        if (!memory) return alert('Please share a memory 💕');
+        chat.textContent += `\nYou: ${memory}\n`;
+        inputArea.innerHTML = '';
+        slowType("That is so sprcial ! i love it  💗\n", () => {
+          askCake();
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+
+    function askCake() {
+      chat.textContent += "\nChoose your dream birthday cake! 🎂\n";
+
+      const flavors = ["Chocolate 🍫", "Strawberry 🍓", "Vanilla 🍰", "Red Velvet ❤️"];
+      inputArea.innerHTML = '';
+
+      flavors.forEach(flavor => {
+        const btn = document.createElement('button');
+        btn.textContent = flavor;
+        btn.onclick = () => {
+          chat.textContent += `\nYou picked: ${flavor}\n`;
+          inputArea.innerHTML = '';
+          slowType(`Yummm! This whole ${flavor} cake just for you! 🎉\n`, () => {
+            askSong();
+          });
+        };
+        inputArea.appendChild(btn);
+      });
+    }
+
+    function askSong() {
+      const input = document.createElement('input');
+      input.placeholder = "What's your favorite song to dance with me to? 🎵";
+      const button = document.createElement('button');
+      button.textContent = "Share Song 🎶";
+      button.onclick = () => {
+        const song = input.value.trim();
+        if (!song) return alert('Please tell me a song 🎶');
+        chat.textContent += `\nYou: ${song}\n`;
+        inputArea.innerHTML = '';
+        slowType(`ohhh,it is such a beautiful song ! I'm dancing to it right now 💃🕺\n`, () => {
+          askAdvice();
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+
+    function askAdvice() {
+      const input = document.createElement('input');
+      input.placeholder = "What do you want from me as a gift? 💝";
+      const button = document.createElement('button');
+      button.textContent = "Share gift 😉";
+      button.onclick = () => {
+        const advice = input.value.trim();
+        if (!advice) return alert('Please share something 💡');
+        chat.textContent += `\nYou: ${advice}\n`;
+        inputArea.innerHTML = '';
+        slowType("Wow,that's beautiful.  🌱💖\n", () => {
+        askintention(); 
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+    
+    function askintention() {
+      chat.textContent += "\nAre you missing me or not ? 🥰\n";
+
+      const goodBtn = document.createElement('button');
+      goodBtn.textContent = " yes missing u 💖";
+      goodBtn.onclick = () => handleintention("loved");
+
+      const mehBtn = document.createElement('button');
+      mehBtn.textContent = "not that much 😔";
+      mehBtn.onclick = () => handleintention("down");
+
+      inputArea.innerHTML = '';
+      inputArea.appendChild(goodBtn);
+      inputArea.appendChild(mehBtn);
+    }
+
+    function handleintention(intention) {
+      chat.textContent += `\nYou: I'm intention ${intention}.\n`;
+      inputArea.innerHTML = '';
+
+      let response = intention === "loved"
+        ? "Aww,i miss you too merii jaaann ! ✨💗\n"
+        : "hmm 🙄\n";
+
+      slowType(response, () => {
+      askpast();
+      });
+    }
+    function askpast() {
+      const input = document.createElement('input');
+      input.placeholder = "What's your favorite memory of us together 💕?";
+      const button = document.createElement('button');
+      button.textContent = "Share memory ";
+      button.onclick = () => {
+        const song = input.value.trim();
+        if (!song) return alert('tell me');
+        chat.textContent += `\nYou: ${song}\n`;
+        inputArea.innerHTML = '';
+        slowType(`ohhh,it is such a beautiful memory ! i love it \n`, () => {
+          endMessage();
+        });
+      };
+      inputArea.appendChild(input);
+      inputArea.appendChild(button);
+    }
+    function endMessage() {
+      slowType("\n I'm so happy to talk to you, my love. Wishing you a very happy birthday, my jaan—you are the best part of my life.", () => {
+        slowType("Wishing you peace, love, cake, and magical surprises all year long! 🎊\n", () => {
+          slowType("With all my heart,\nSooryam 💌", () => {
+            inputArea.innerHTML = '<p style="margin-top: 1rem;">💗 End of Chat – Refresh to restart 💗</p>';
+          });
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
